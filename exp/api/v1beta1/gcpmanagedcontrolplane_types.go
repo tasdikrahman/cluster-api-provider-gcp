@@ -17,6 +17,7 @@ limitations under the License.
 package v1beta1
 
 import (
+	"google.golang.org/protobuf/types/known/timestamppb"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	clusterv1 "sigs.k8s.io/cluster-api/api/v1beta1"
 )
@@ -109,6 +110,37 @@ type AuthenticatorGroupConfig struct {
 	SecurityGroups string `json:"securityGroups,omitempty"`
 }
 
+type MaintenanceWindowPolicy struct {
+
+}
+
+type RecurringTimeWindow struct {
+	Window *TimeWindow
+	Recurrence string
+}
+
+type MaintenanceWindowRecurringWindow struct {
+	RecurringWindow RecurringTimeWindow
+
+}
+
+type Main
+
+type TimeWindow struct {
+	StartTime *timestamppb.Timestamp
+	EndTime   *timestamppb.Timestamp
+}
+
+type MaintenanceWindow struct {
+	Policy                MaintenanceWindowPolicy
+	MaintenanceExclusions map[string]*TimeWindow
+}
+
+// MaintenancePolicy is to configure the maintenance policy for this cluster.
+type MaintenancePolicy struct {
+	MaintenanceWindow MaintenanceWindow
+}
+
 // GCPManagedControlPlaneSpec defines the desired state of GCPManagedControlPlane.
 type GCPManagedControlPlaneSpec struct {
 	// ClusterName allows you to specify the name of the GKE cluster.
@@ -136,6 +168,8 @@ type GCPManagedControlPlaneSpec struct {
 	// ReleaseChannel represents the release channel of the GKE cluster.
 	// +optional
 	ReleaseChannel *ReleaseChannel `json:"releaseChannel,omitempty"`
+	// MaintenancePolicy is to configure the maintenance policy for this cluster.
+	MaintenancePolicy *MaintenancePolicy
 	// ControlPlaneVersion represents the control plane version of the GKE cluster.
 	// If not specified, the default version currently supported by GKE will be
 	// used.

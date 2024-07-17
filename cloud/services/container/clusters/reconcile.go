@@ -373,6 +373,8 @@ func convertToSdkReleaseChannel(channel *infrav1exp.ReleaseChannel) containerpb.
 	}
 }
 
+func convertToSdk
+
 func convertToSdkMasterVersion(masterVersion string) string {
 	// For example, the master version returned from GCP SDK can be 1.27.2-gke.2100, we want to convert it to 1.27.2
 	return strings.Replace(strings.Split(masterVersion, "-")[0], "v", "", 1)
